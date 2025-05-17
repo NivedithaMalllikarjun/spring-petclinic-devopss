@@ -9,7 +9,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/NivedithaMalllikarjun/spring-petclinic-devopss.git'
+                 git branch: 'main', url: 'https://github.com/NivedithaMalllikarjun/spring-petclinic-devopss.git'
+    }
             }
         }
 
