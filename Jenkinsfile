@@ -2,23 +2,33 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.8.6'
-        jdk 'JDK11
-'
+        jdk 'JDK11'
+        maven 'Maven3'
     }
 
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                sh './mvnw clean package -DskipTests'
+                git 'https://github.com/<your-github-username>/spring-petclinic-devopss.git'
             }
         }
 
-        stage('Archive Artifact') {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Archive') {
             steps {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
 }
-i
