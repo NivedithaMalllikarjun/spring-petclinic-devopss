@@ -31,5 +31,17 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
+
+        stage('Deploy') {
+            steps {
+        sh '''
+           # Kill old app if running
+           pkill -f 'spring-petclinic' || true
+
+           # Run the new jar in background on port 9090
+           nohup java -jar target/spring-petclinic-3.1.0.jar --server.port=9090 > app.log 2>&1 &
+         '''
+            }
+      }
     }
 }
