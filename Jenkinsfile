@@ -14,9 +14,10 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        sstage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
+                sh 'ls -l target'
             }
         }
 
@@ -43,5 +44,13 @@ pipeline {
          '''
             }
       }
+      
+        stage('Docker Push') {
+            steps {
+                withDockerRegistry([credentialsId: 'dockerhub-creds', url: '']) {
+                    sh 'docker push $IMAGE_NAME'
+                }
+            }
+        }  
     }
 }
